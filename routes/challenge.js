@@ -48,11 +48,14 @@ handleDisconnect();
 
 
 exports.challenge = function(req,res){
+	console.log("dddd:challenge")
 	session = req.session;
+	/**GZ: no session management for now
 	if(!session.email) {
 		return res.redirect("/")
 		req.session.error="need to login first"
 	}
+	**/
 	
   connection.query('SELECT * FROM challenges',[], function (error, results, fields) {
   if (error) {

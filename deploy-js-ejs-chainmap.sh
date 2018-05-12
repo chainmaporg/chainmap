@@ -15,7 +15,6 @@ for ix in ${!hosts[*]}
 do
 	
 	echo "scp file to ${hosts[$ix]}"
-    scp ./routes/* gezhao@${hosts[$ix]}:$target/routes
     scp ./views/* gezhao@${hosts[$ix]}:$target/views
     scp ./views/partials/*.* gezhao@${hosts[$ix]}:$target/views/partials
 

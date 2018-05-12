@@ -1,5 +1,5 @@
 var mysql      = require('mysql');
-var mysql      = require('mysql');
+
 
 /**
 var db_config = {
@@ -47,12 +47,14 @@ function handleDisconnect() {
 handleDisconnect();
 
 exports.content = function(req,res){
+	/**GZ: no session management
 	console.log("dddd-content route")
 	session = req.session;
 	console.log("dddd-content222 route")
 	if(!session.email) {
 		return res.redirect("/")
 	}
+	**/
 	
   connection.query('SELECT * FROM materials',[], function (error, results, fields) {
   if (error) {

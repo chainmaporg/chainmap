@@ -56,11 +56,12 @@ router.get('/query/:content', function(req, res, next) {
 
 router.get('/resource/whitepaper/:name', function (req, res, next) {
 
+/**
 	session = req.session;
 	if(!session.email) {
 		res.redirect("/")
 	}
-	
+**/	
   var options = {
     // root: __dirname + '/resources/whitepaper/',
     root: './resources/whitepaper/',
@@ -100,11 +101,15 @@ router.get('/resource/whitepaper/:name', function (req, res, next) {
 // });
 
 router.get('/page', function(req, res) {
-    res.render('signup', { title: 'Signup' });
+    res.render('home', { title: 'Home' });
 });
 
 router.get('/about', function(req, res) {
     res.render('about', { title: 'About' });
+});
+
+router.get('/signup', function(req, res) {
+    res.render('signup', { title: 'Signup' });
 });
 
 router.get('/login', function(req, res) {
@@ -137,10 +142,12 @@ router.get('/logout',function(req,res){
 
 router.get('/content',content.content)
 router.get('/challenge',challenge.challenge)
-router.get('/', function(req, res) {
-    res.render('signup', { title: 'Home' });
+router.get('/signup', function(req, res) {
+    res.render('signup', { title: 'Sign up' });
 });
-
+router.get('/', function(req, res) {
+    res.render('home', { title: 'Home' });
+});
 
 
 
@@ -148,10 +155,12 @@ router.get('/', function(req, res) {
 
 /* GET home page. */
 router.get('/search', function(req, res, next) {
+	/**ddd
 	session = req.session;
 	if(!session.email) {
 		return res.redirect("/")
 	}
+	**/
 	
   res.render('search', { title: 'Whitepaper etc' });
 });
