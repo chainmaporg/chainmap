@@ -41,7 +41,7 @@ var client = new Client();
 router.get('/query/:content', function(req, res, next) {
 	//http://localhost:8983/solr/chainmap/select?fl=title&q=content:bitcoin&start=10
 
-	var url = 'http://localhost:8983/solr/chainmap/select?fl=title&q=content:'+ encodeURI(req.params.content) +'&wt=json';
+	var url = 'http://localhost:8983/solr/chainmap/select?fl=title,%20summary&q=content:'+ encodeURI(req.params.content) +'&wt=json';
 	console.log('query is ' + url);
   	client.get(url, function (data, response) {
   		// res.send(data);
