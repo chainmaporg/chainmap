@@ -54,6 +54,35 @@ CREATE TABLE `job_board` (
 -- Records of job_board
 -- ----------------------------
 
+
+DROP TABLE IF EXISTS `challenge`;
+CREATE TABLE `challenge` (
+  `challenge_id` int(15) NOT NULL AUTO_INCREMENT,
+  `post_user_id` int(11) NOT NULL,
+  `description` text NOT NULL,
+  `upvote_count` int(8) NOT NULL DEFAULT '0',
+  `downvote_count` int(8) NOT NULL DEFAULT '0',
+  `view_count` int(8) NOT NULL DEFAULT '0',
+  `category` varchar(20) NOT NULL,
+  `level` varchar(20) NOT NULL,  
+  `posting_date` datetime NOT NULL,
+  PRIMARY KEY (`challenge_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `answer`;
+CREATE TABLE `answer` (
+  `answer_id` int(15) NOT NULL AUTO_INCREMENT,
+  `challenge_id` int(15) NOT NULL
+  `post_user_id` int(11) NOT NULL,
+  `description` text NOT NULL, 
+  `posting_date` datetime NOT NULL,
+  `upvote_count` int(8) NOT NULL DEFAULT '0',
+  `downvote_count` int(8) NOT NULL DEFAULT '0',
+  `view_count` int(8) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`answer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 -- ----------------------------
 -- Table structure for `job_history`
 -- ----------------------------
