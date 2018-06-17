@@ -113,7 +113,7 @@ router.get('/resource/event/:name', function(req, res) {
     // res.render('company', { title: 'Comapany Info' });
 });
 
-router.get('/resource/whitepaper/:name', function (req, res, next) {
+router.get('/resource/white_paper/:name', function (req, res, next) {
 
 /**
 	session = req.session;
