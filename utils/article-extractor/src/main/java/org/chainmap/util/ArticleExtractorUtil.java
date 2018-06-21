@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.*;
@@ -19,6 +20,8 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 public class ArticleExtractorUtil {
     private static final Logger LOG = LoggerFactory.getLogger(ArticleExtractorUtil.class);
     public static final String DEFAULT_ENCODING = "UTF-8";
+    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
+    private static File failedExtractionsFile;
 
     private String excelFileName;
     private String outputDir;
@@ -26,6 +29,8 @@ public class ArticleExtractorUtil {
     public ArticleExtractorUtil(String excelFileName, String outputDir) {
         this.excelFileName = excelFileName;
         this.outputDir = outputDir;
+
+        failedExtractionsFile = new File(outputDir + File.separator + "failed-extractions.out");
     }
 
     public void extract() throws Exception {
@@ -62,9 +67,12 @@ public class ArticleExtractorUtil {
                     ArticleScrapper scrapper = new ArticleScrapper(webPageCrawler.crawl().getBytes());
                     String content = scrapper.scrap();
 
+                    content += getFooter(info);
+
                     FileUtils.writeStringToFile(new File(outputDir + File.separator + info.getFileName()), content, Charset.forName("UTF-8"));
-                } catch(Exception e) {
+                } catch (Exception e) {
                     LOG.error("Failed to get article from {}", info.getArticleUrl(), e.getMessage());
+                    reportFailedExtraction(info);
                     failed.add(info);
                 }
             }
@@ -85,6 +93,36 @@ public class ArticleExtractorUtil {
         if (rit.hasNext()) {
             rit.next();
         }
+    }
+
+    private String getFooter(InputInfo info) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(LINE_SEPARATOR).
+                append(LINE_SEPARATOR).
+                append("Original link: ").
+                append(info.getArticleUrl()).
+                append(LINE_SEPARATOR);
+
+        return sb.toString();
+    }
+
+    private void reportFailedExtraction(InputInfo info) throws IOException {
+        StringBuilder failed = new StringBuilder();
+
+        failed.
+                append("Failed to retrieve ").
+                append(info.getArticleUrl()).
+                append(" to file ").
+                append(info.getFileName()).
+                append(LINE_SEPARATOR);
+
+        FileUtils.writeStringToFile(
+                failedExtractionsFile,
+                failed.toString(),
+                Charset.forName("UTF-8"),
+                true
+        );
     }
 
     static class InputInfo {
@@ -115,7 +153,7 @@ public class ArticleExtractorUtil {
         public String getFileName() {
             StringBuilder sb = new StringBuilder();
             sb.
-                    append(getRowIndex()).
+                    append(String.format("%03d", getRowIndex())).
                     append("-").
                     append(normalizeString(getAuthorName())).
                     append("-").
