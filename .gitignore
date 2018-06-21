@@ -1,3 +1,4 @@
+# Java
 *.class
 *.log
 
@@ -17,3 +18,15 @@
 # Maven
 log/
 target/
+
+# Node
+node_modules
+build
+npm-debug.log
+.env
+
+# Other
+.DS_Store
+*.pdf
+*.PDF
+resources
