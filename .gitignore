@@ -23,6 +23,8 @@ node_modules
 build
 npm-debug.log
 .env
+
+# Other
 .DS_Store
 *.pdf
 *.PDF
