@@ -1,4 +1,4 @@
-# Java
+
 *.class
 *.log
 
@@ -19,7 +19,6 @@
 log/
 target/
 
-# Node
 node_modules
 build
 npm-debug.log
@@ -30,3 +29,4 @@ npm-debug.log
 *.pdf
 *.PDF
 resources
+
