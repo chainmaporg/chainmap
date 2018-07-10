@@ -64,12 +64,16 @@ public class ArticleExtractorUtil {
 
                 try {
                     WebPageCrawler webPageCrawler = new WebPageCrawler(info.getArticleUrl());
-                    ArticleScrapper scrapper = new ArticleScrapper(webPageCrawler.crawl().getBytes());
-                    String content = scrapper.scrap();
+                    String crawled = webPageCrawler.crawl();
 
-                    content += getFooter(info);
+                    if (!isBlank(crawled)) {
+                        ArticleScrapper scrapper = new ArticleScrapper(crawled.getBytes());
+                        String content = scrapper.scrap();
 
-                    FileUtils.writeStringToFile(new File(outputDir + File.separator + info.getFileName()), content, Charset.forName("UTF-8"));
+                        content += getFooter(info);
+
+                        FileUtils.writeStringToFile(new File(outputDir + File.separator + info.getFileName()), content, Charset.forName("UTF-8"));
+                    }
                 } catch (Exception e) {
                     LOG.error("Failed to get article from {}", info.getArticleUrl(), e.getMessage());
                     reportFailedExtraction(info);
